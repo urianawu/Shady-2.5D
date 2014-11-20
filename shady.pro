@@ -31,7 +31,10 @@ HEADERS += glwidget.h \
     meshshape/pattern.h \
     EPSPlot.h \
     Renderer/PreviewAttrDialog.h \
-    Renderer/framebufferwrapper.h
+    Renderer/framebufferwrapper.h \
+    UIElements/previewicon.h \
+    UIElements/eyecheckbox.h \
+    UIElements/clickablelabel.h
 
 SOURCES += glwidget.cpp \
     main.cpp \
@@ -68,7 +71,10 @@ SOURCES += glwidget.cpp \
     meshshape/patch.cpp \
     EPSExporter.cpp \
     Renderer/previewattr.cpp \
-    ISExporter.cpp
+    ISExporter.cpp \
+    UIElements/previewicon.cpp \
+    UIElements/eyecheckbox.cpp \
+    UIElements/clickablelabel.cpp
 
 
 QT           += opengl widgets
