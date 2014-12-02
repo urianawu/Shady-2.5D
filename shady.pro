@@ -34,7 +34,9 @@ HEADERS += glwidget.h \
     Renderer/framebufferwrapper.h \
     UIElements/previewicon.h \
     UIElements/eyecheckbox.h \
-    UIElements/clickablelabel.h
+    UIElements/clickablelabel.h \
+    UIElements/layerpanel.h \
+    UIElements/channelpanel.h
 
 SOURCES += glwidget.cpp \
     main.cpp \
@@ -74,7 +76,9 @@ SOURCES += glwidget.cpp \
     ISExporter.cpp \
     UIElements/previewicon.cpp \
     UIElements/eyecheckbox.cpp \
-    UIElements/clickablelabel.cpp
+    UIElements/clickablelabel.cpp \
+    UIElements/layerpanel.cpp \
+    UIElements/channelpanel.cpp
 
 
 QT           += opengl widgets

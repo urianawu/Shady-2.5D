@@ -139,25 +139,63 @@ void MainWindow::initTools()
     optionsDockWidget = new QDockWidget(QString("Options"), this);
     attrDockWidget = new QDockWidget(QString("Attributes"), this);
 
+    //init layer dock
+    layerDockWidget = new  QDockWidget(QString("Layers"), this);
+    layerDockWidget->setMinimumHeight(250);
+    layerDockWidget->setMaximumHeight(250);
+    channels = new channelPanel(this, glWidget);
+    layers = new LayerPanel(this, glWidget);
+
+    //init layer/channel tab
+    QTabWidget *layerTab;
+    layerTab = new QTabWidget();
+    layerTab->addTab(layers, QString("Layers"));
+    layerTab->addTab(channels,QString("Channels"));
+
+    //set layer thin title bar to be invisible
+    layerContent = new QWidget;
+    QGridLayout *titlelayout = new QGridLayout;
+    titlelayout->addWidget(layerTab,0,0);
+    layerContent->setLayout(titlelayout);
+    layerDockWidget->setTitleBarWidget(layerContent);
+    connect(layerDockWidget,SIGNAL(topLevelChanged(bool)), this, SLOT(setUseNativeTitleBar(bool)) );
+
     optionsStackedWidget = new QStackedWidget();
     attrStackedWidget = new QStackedWidget();
 
     optionsDockWidget->setWidget(optionsStackedWidget);
     attrDockWidget->setWidget(attrStackedWidget);
 
-    this->addDockWidget(Qt::LeftDockWidgetArea, optionsDockWidget);
-    this->addDockWidget(Qt::LeftDockWidgetArea, attrDockWidget);
+    this->addDockWidget(Qt::RightDockWidgetArea, layerDockWidget);
+    this->addDockWidget(Qt::RightDockWidgetArea, optionsDockWidget);
+    this->addDockWidget(Qt::RightDockWidgetArea, attrDockWidget);
     this->setDockOptions(!QMainWindow::AllowTabbedDocks);
 
 #ifndef MODELING_MODE
     rendererDockWidget   = new QDockWidget(QString("Preview"), this);
     previewSettingsPanel = new RenderOptionsPenal(this, glWidget);
     rendererDockWidget->setWidget(previewSettingsPanel);
-    this->addDockWidget(Qt::LeftDockWidgetArea, rendererDockWidget);
+    this->addDockWidget(Qt::RightDockWidgetArea, rendererDockWidget);
 #endif
 
     addAttrWidget(new QWidget, 0);//default widget
     createAllOptionsWidgets();
+}
+
+//fix layer dock widget drag issue
+void MainWindow::setUseNativeTitleBar(bool native)
+{
+    if ( native ) {
+        // restoring native
+        layerDockWidget->setTitleBarWidget(0);
+        layerDockWidget->setWidget(layerContent);
+
+    } else {
+        // using custom
+        layerDockWidget->setTitleBarWidget(layerContent);
+        layerDockWidget->setWidget(new QWidget());
+
+    }
 }
 
 int MainWindow::addOptionsWidget(QWidget* widget,int key){

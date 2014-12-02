@@ -45,6 +45,9 @@
 #include <QMainWindow>
 #include <QtWidgets>
 #include "customdialog.h"
+#include "UIElements/channelpanel.h"
+#include "UIElements/layerpanel.h"
+#include "Renderer/imageshape.h"
 
 QT_BEGIN_NAMESPACE
 class QLabel;
@@ -94,6 +97,7 @@ private slots:
     void    redo();
     void    about();
 
+    void    setUseNativeTitleBar(bool);
     void    viewOptions();
     void    viewAttr();
 
@@ -164,9 +168,13 @@ private:
 
     QStackedWidget  *optionsStackedWidget;
     QStackedWidget  *attrStackedWidget;
+    QDockWidget     *layerDockWidget;
     QDockWidget     *optionsDockWidget;
     QDockWidget     *attrDockWidget;
     QDockWidget     *rendererDockWidget;
+    channelPanel    *channels;
+    LayerPanel      *layers;
+    QWidget         *layerContent;
 
     QSize getSize();
 
