@@ -309,6 +309,7 @@ QWidget* createOrderFaceOptions()
 
 void MainWindow::createAllOptionsWidgets()
 {
+
     addOptionsWidget(new QWidget(), Options::NONE);
     addOptionsWidget(createDragOptions(), Options::DRAG);
     addOptionsWidget(createGridOptions(), Options::GRID);

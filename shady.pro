@@ -36,7 +36,8 @@ HEADERS += glwidget.h \
     UIElements/eyecheckbox.h \
     UIElements/clickablelabel.h \
     UIElements/layerpanel.h \
-    UIElements/channelpanel.h
+    UIElements/channelpanel.h \
+    UIElements/resizablestackedwidget.h
 
 SOURCES += glwidget.cpp \
     main.cpp \
@@ -78,7 +79,8 @@ SOURCES += glwidget.cpp \
     UIElements/eyecheckbox.cpp \
     UIElements/clickablelabel.cpp \
     UIElements/layerpanel.cpp \
-    UIElements/channelpanel.cpp
+    UIElements/channelpanel.cpp \
+    UIElements/resizablestackedwidget.cpp
 
 
 QT           += opengl widgets

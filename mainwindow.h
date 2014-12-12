@@ -47,6 +47,7 @@
 #include "customdialog.h"
 #include "UIElements/channelpanel.h"
 #include "UIElements/layerpanel.h"
+#include "UIElements/resizablestackedwidget.h"
 #include "Renderer/imageshape.h"
 
 QT_BEGIN_NAMESPACE
@@ -166,8 +167,8 @@ private:
 	// for dockable widgets window
     void             createAllOptionsWidgets();
 
-    QStackedWidget  *optionsStackedWidget;
-    QStackedWidget  *attrStackedWidget;
+    ResizableStackedWidget  *optionsStackedWidget;
+    ResizableStackedWidget  *attrStackedWidget;
     QDockWidget     *layerDockWidget;
     QDockWidget     *optionsDockWidget;
     QDockWidget     *attrDockWidget;

@@ -97,8 +97,11 @@ void MainWindow::initScene(){
 void MainWindow::initTools()
 {
 
-    QToolBar *toolbar = addToolBar("main toolbar");
+    QToolBar *toolbar = new QToolBar("main toolbar");
+    addToolBar(Qt::LeftToolBarArea, toolbar);
+
     QMenu *menu = new QMenu(tr("Channels"));
+    //Channels list on toolbar
     menu->addAction(normalChannelAct);
     menu->addAction(darkChannelAct);
     menu->addAction(brightChannelAct);
@@ -112,6 +115,11 @@ void MainWindow::initTools()
 
     toolbar->addSeparator();
 
+    toolbar->addAction(dragAct);
+    toolbar->addSeparator();
+
+
+    //new shape actions on toolbar
     toolbar->addAction(shapeInsertEllipseAct);
     toolbar->addAction(shapeInsertGridAct);
     toolbar->addAction(shapeInsert2NGonAct);
@@ -120,8 +128,9 @@ void MainWindow::initTools()
     toolbar->addAction(shapeInsertImageShapeAct);
 
     toolbar->addSeparator();
-    toolbar->addAction(dragAct);
-    toolbar->addSeparator();
+
+
+    //shape geometry tools on toolbar
     toolbar->addAction(extrudeEdgeAct);
     toolbar->addAction(extrudeFaceAct);
     toolbar->addAction(insertSegmentAct);
@@ -129,6 +138,8 @@ void MainWindow::initTools()
     toolbar->addAction(orderFaceAct);
 
     toolbar->addSeparator();
+
+    //shapemap tools on toolbar
     toolbar->addAction(assignPatternAct);
     toolbar->addAction(setFoldsAct);
     toolbar->addAction(setColorToolAct);
@@ -141,16 +152,21 @@ void MainWindow::initTools()
 
     //init layer dock
     layerDockWidget = new  QDockWidget(QString("Layers"), this);
-    layerDockWidget->setMinimumHeight(250);
+    layerDockWidget->setMinimumHeight(0);
     layerDockWidget->setMaximumHeight(250);
     channels = new channelPanel(this, glWidget);
     layers = new LayerPanel(this, glWidget);
 
-    //init layer/channel tab
+    //init layer/channel tab (as dock widget title)
     QTabWidget *layerTab;
     layerTab = new QTabWidget();
     layerTab->addTab(layers, QString("Layers"));
     layerTab->addTab(channels,QString("Channels"));
+
+    //init layer dock widget (as content)
+    QWidget* emptyWidget = new QWidget;
+    emptyWidget->setMinimumHeight(0);
+    emptyWidget->setMaximumHeight(250);
 
     //set layer thin title bar to be invisible
     layerContent = new QWidget;
@@ -158,10 +174,12 @@ void MainWindow::initTools()
     titlelayout->addWidget(layerTab,0,0);
     layerContent->setLayout(titlelayout);
     layerDockWidget->setTitleBarWidget(layerContent);
+    layerDockWidget->setWidget(emptyWidget);
     connect(layerDockWidget,SIGNAL(topLevelChanged(bool)), this, SLOT(setUseNativeTitleBar(bool)) );
 
-    optionsStackedWidget = new QStackedWidget();
-    attrStackedWidget = new QStackedWidget();
+    optionsStackedWidget = new ResizableStackedWidget();
+    attrStackedWidget = new ResizableStackedWidget();
+
 
     optionsDockWidget->setWidget(optionsStackedWidget);
     attrDockWidget->setWidget(attrStackedWidget);
@@ -315,7 +333,6 @@ void MainWindow::createActions()
     previewAct = new QAction(tr("Preview"), this);
     previewAct->setShortcut(Qt::Key_F5);
     previewAct->setCheckable(true); 
-    previewAct->setCheckable(true);
     previewAct->setChecked(false);
     connect(previewAct, SIGNAL(triggered()), this, SLOT(togglePreview()));
 
@@ -420,84 +437,101 @@ void MainWindow::createActions()
     //====MESH OPERATIONS=======================================================
     extrudeEdgeAct = new QAction(tr("&Extrude Edge"), this);
     extrudeEdgeAct->setShortcut(tr("Ctrl+E"));
+    extrudeEdgeAct->setCheckable(true);
     connect(extrudeEdgeAct, SIGNAL(triggered()), this, SLOT(selectExtrudeEdge()));
 
     extrudeFaceAct = new QAction(tr("Extrude &Face"), this);
     extrudeFaceAct->setShortcut(tr("Ctrl+Q"));
+    extrudeFaceAct->setCheckable(true);
     connect(extrudeFaceAct, SIGNAL(triggered()), this, SLOT(selectExtrudeFace()));
 
     insertSegmentAct = new QAction(tr("&Insert Segment"), this);
     insertSegmentAct->setShortcut(tr("Ctrl+I"));
+    insertSegmentAct->setCheckable(true);
     connect(insertSegmentAct, SIGNAL(triggered()), this, SLOT(selectInsertSegment()));
 
     deleteFaceAct = new QAction(tr("&Delete Face"), this);
     deleteFaceAct->setShortcut(tr("Ctrl+D"));
+    deleteFaceAct->setCheckable(true);
     connect(deleteFaceAct, SIGNAL(triggered()), this, SLOT(selectDeleteFace()));
 
     orderFaceAct = new QAction(tr("&Order Face"), this);
     orderFaceAct->setShortcut(tr("Ctrl+O"));
+    orderFaceAct->setCheckable(true);
     connect(orderFaceAct, SIGNAL(triggered()), this, SLOT(selectOrderFace()));
 
 
     assignPatternAct = new QAction(tr("&Assign Pattern "), this);
     assignPatternAct->setShortcut(tr("Ctrl+P"));
+    assignPatternAct->setCheckable(true);
     connect(assignPatternAct, SIGNAL(triggered()), this, SLOT(selectAssignPatternTool()));
 
     setFoldsAct = new QAction(tr("&Set Folds "), this);
     setFoldsAct->setShortcut(tr("Ctrl+P"));
+    setFoldsAct->setCheckable(true);
     connect(setFoldsAct, SIGNAL(triggered()), this, SLOT(selectSetFoldsTool()));
 
     setColorToolAct = new QAction(tr("Set Color"), this);
     //shapeTransformAct->setShortcut(tr("Ctrl+T"));
+    setColorToolAct->setCheckable(true);
     connect(setColorToolAct, SIGNAL(triggered()), this, SLOT(selectSetColorTool()));
 
     setSewToolAct = new QAction(tr("Sew"), this);
     //shapeTransformAct->setShortcut(tr("Ctrl+T"));
+    setSewToolAct->setCheckable(true);
     connect(setSewToolAct, SIGNAL(triggered()), this, SLOT(selectSewTool()));
+
+    //====NEW SHAPES=============================================================
+    shapeInsertTorusAct = new QAction(tr("Torus"), this);
+    shapeInsertTorusAct->setCheckable(true);
+    connect(shapeInsertTorusAct, SIGNAL(triggered()), this, SLOT(newTorus()));
+
+    shapeInsertEllipseAct = new QAction(tr("Ellipse"), this);
+    shapeInsertEllipseAct->setCheckable(true);
+    connect(shapeInsertEllipseAct, SIGNAL(triggered()), this, SLOT(insertEllipse()));
+
+    shapeInsertGridAct = new QAction(tr("Grid"), this);
+    shapeInsertGridAct->setCheckable(true);
+    connect(shapeInsertGridAct, SIGNAL(triggered()), this, SLOT(newGrid()));
+
+    shapeInsert2NGonAct = new QAction(tr("Polygon"), this);
+    shapeInsert2NGonAct->setCheckable(true);
+    connect(shapeInsert2NGonAct, SIGNAL(triggered()), this, SLOT(new2NGon()));
+
+    shapeInsertSpineAct = new QAction(tr("Spine"), this);
+    shapeInsertSpineAct->setCheckable(true);
+    connect(shapeInsertSpineAct, SIGNAL(triggered()), this, SLOT(newSpine()));
+
+    shapeInsertFacialAct = new QAction(tr("Facial Shape"), this);
+    shapeInsertFacialAct->setCheckable(true);
+    connect(shapeInsertFacialAct, SIGNAL(triggered()), this, SLOT(newFacial()));
+
+    shapeInsertImageShapeAct = new QAction(tr("Image Shape"), this);
+    shapeInsertImageShapeAct->setCheckable(true);
+    connect(shapeInsertImageShapeAct, SIGNAL(triggered()), this, SLOT(newImageShape()));
 
     QActionGroup* toolset = new QActionGroup(this);
 
-    extrudeEdgeAct->setCheckable(true);
-    extrudeFaceAct->setCheckable(true);
-    insertSegmentAct->setCheckable(true);
-    deleteFaceAct->setCheckable(true);
-    setColorToolAct->setCheckable(true);
-
-    setFoldsAct->setCheckable(true);
-    assignPatternAct->setCheckable(true);
-
-    dragAct->setActionGroup(toolset);
+    //dragAct->setActionGroup(toolset);
     extrudeEdgeAct->setActionGroup(toolset);
     extrudeFaceAct->setActionGroup(toolset);
     insertSegmentAct->setActionGroup(toolset);
     deleteFaceAct->setActionGroup(toolset);
+    orderFaceAct->setActionGroup(toolset);
     assignPatternAct->setActionGroup(toolset);
     setFoldsAct->setActionGroup(toolset);
     setColorToolAct->setActionGroup(toolset);
-    orderFaceAct->setActionGroup(toolset);
+    setSewToolAct->setActionGroup(toolset);
+
+
+    shapeInsertEllipseAct->setActionGroup(toolset);
+    shapeInsertGridAct->setActionGroup(toolset);
+    shapeInsert2NGonAct->setActionGroup(toolset);
+    shapeInsertTorusAct->setActionGroup(toolset);
+    shapeInsertSpineAct->setActionGroup(toolset);
+    shapeInsertImageShapeAct->setActionGroup(toolset);
 
     //====SHAPE ACTIONS=============================================================
-    shapeInsertTorusAct = new QAction(tr("Torus"), this);
-    connect(shapeInsertTorusAct, SIGNAL(triggered()), this, SLOT(newTorus()));
-
-    shapeInsertEllipseAct = new QAction(tr("Ellipse"), this);
-    connect(shapeInsertEllipseAct, SIGNAL(triggered()), this, SLOT(insertEllipse()));
-
-    shapeInsertGridAct = new QAction(tr("Grid"), this);
-    connect(shapeInsertGridAct, SIGNAL(triggered()), this, SLOT(newGrid()));
-
-    shapeInsert2NGonAct = new QAction(tr("Polygon"), this);
-    connect(shapeInsert2NGonAct, SIGNAL(triggered()), this, SLOT(new2NGon()));
-
-    shapeInsertSpineAct = new QAction(tr("Spine"), this);
-    connect(shapeInsertSpineAct, SIGNAL(triggered()), this, SLOT(newSpine()));
-
-    shapeInsertFacialAct = new QAction(tr("Facial Shape"), this);
-    connect(shapeInsertFacialAct, SIGNAL(triggered()), this, SLOT(newFacial()));
-
-    shapeInsertImageShapeAct = new QAction(tr("Image Shape"), this);
-    connect(shapeInsertImageShapeAct, SIGNAL(triggered()), this, SLOT(newImageShape()));
-
     shapeLockAct = new QAction(tr("&Lock"), this);
     shapeLockAct->setShortcut(tr("L"));
     connect(shapeLockAct, SIGNAL(triggered()), this, SLOT(toggleLockShape()));
@@ -758,6 +792,7 @@ void MainWindow::about()
 
 void MainWindow::flipDrag()
 {
+
      glWidget->setRender(DRAG_ON, dragAct->isChecked());
      if (dragAct->isChecked()){
          setOptionsWidget(Options::DRAG);
