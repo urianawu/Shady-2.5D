@@ -181,6 +181,11 @@ void GLWidget::resizeGL(int width, int height)
     glViewport(0, 0, width, height);
     _aspectR = width*1.0 / height;
     m_CameraChanged = true;
+    _pGLSLShader_R->Initialize();
+    _pGLSLShader_R->SetInitialized(false);
+    _pGLSLShader_R->SetFBOInitialized(false);
+    _pGLSLShader_R->SetSMInitialized(false);
+
     /*
      *glMatrixMode(GL_MODELVIEW);
      *glLoadIdentity();
