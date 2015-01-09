@@ -163,11 +163,11 @@ public:
     Corner(Vertex_p v=0, Face_p f = 0);
     ~Corner();
 
-    inline int I();
+    int I();
 
-    inline Edge_p	E() const;
-    inline Face_p	F() const;
-    inline Vertex_p V() const;
+    Edge_p	E() const;
+    Face_p	F() const;
+    Vertex_p V() const;
 
     Corner_p next();
     Corner_p prev();
