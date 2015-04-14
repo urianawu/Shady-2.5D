@@ -12,6 +12,8 @@
 #include "MeshShape/Patch.h"
 #include "canvas.h"
 
+#include <QMessageBox>
+
 #ifndef MODELING_MODE
 #include "Renderer/imageshape.h"
 #include "Renderer/renderoptionspenal.h"
@@ -20,6 +22,23 @@
 typedef std::vector<std::string>        StringVec;
 
 //sscanf (sentence,"%s %*s %d",str,&i);
+bool DefaultIO::saveImage()
+{
+    QString fileName = QFileDialog::getSaveFileName(Session::get()->glWidget(), QObject::tr("Save File"),
+                               "/home/untitled.png",
+                               QObject::tr("Images (*.png *.jpg *.gif *.bmp *.jpeg *.pbm *.pgm *.ppm)"));
+
+    if(!fileName.isNull())
+    {
+        QImage image = (Session::get()->glWidget()->grabFrameBuffer());
+        if( !image.save(fileName))
+        {
+            QMessageBox::warning( Session::get()->glWidget(), "Save Image", "Error saving image." );
+        }
+    }
+
+}
+
 bool DefaultIO::save(const char *fname)
 {
 

@@ -65,6 +65,17 @@ void createSpine()
     Session::get()->insertShape(pMS);
 }
 
+void createShapeImage(){
+    //MeshShape* pMS =ImageShape::insertGrid(Point(), MeshShape::GRID_LEN, MeshShape::GRID_M, MeshShape::GRID_N);
+#ifndef MODELING_MODE
+    ImageShape* pIS = new ImageShape(1.0,1.0);
+    //Session::get()->mainWindow()->addAttrWidget(createImageShapeAttrWidget(pIS ), (void*)pIS);
+
+    ShapeOrder* so = new ShapeOrder(ShapeOrder::INSERT_SHAPE);
+    so->setShape(pIS );
+    Session::get()->exec(so);
+#endif
+}
 
 void MainWindow::selectExtrudeEdge()
 {
@@ -160,7 +171,7 @@ void MainWindow::newFacial()
 
 void MainWindow::newImageShape()
 {
-    setOptionsWidget(Options::IMAGE_SHAPE);
+    createShapeImage();
 }
 
 QWidget* createDragOptions()
@@ -282,17 +293,7 @@ QWidget* createInsertSegmentOptions()
     return widget;
 }
 
-void createShapeImage(){
-    //MeshShape* pMS =ImageShape::insertGrid(Point(), MeshShape::GRID_LEN, MeshShape::GRID_M, MeshShape::GRID_N);
-#ifndef MODELING_MODE
-    ImageShape* pIS = new ImageShape(1.0,1.0);
-    //Session::get()->mainWindow()->addAttrWidget(createImageShapeAttrWidget(pIS ), (void*)pIS);
 
-    ShapeOrder* so = new ShapeOrder(ShapeOrder::INSERT_SHAPE);
-    so->setShape(pIS );
-    Session::get()->exec(so);
-#endif
-}
 
 QWidget* createImageShapeOptions()
 {
@@ -320,7 +321,7 @@ void MainWindow::createAllOptionsWidgets()
     addOptionsWidget(createInsertSegmentOptions(), Options::INSERT_SEGMENT);
     addOptionsWidget(createAssignPatternOptions(), Options::ASSIGN_PATTERN);
     addOptionsWidget(createSetFoldsOptions(), Options::SET_FOLDS);
-    addOptionsWidget(createImageShapeOptions(), Options::IMAGE_SHAPE);
+    //addOptionsWidget(createImageShapeOptions(), Options::IMAGE_SHAPE);
     addOptionsWidget(createSetColorOptions() , Options::SET_COLOR);
     addOptionsWidget(createSewOptions() , Options::SEW);
     addOptionsWidget(createOrderFaceOptions() , Options::ORDER_FACE);

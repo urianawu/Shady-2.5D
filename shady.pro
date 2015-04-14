@@ -38,7 +38,8 @@ HEADERS += glwidget.h \
     UIElements/clickablelabel.h \
     UIElements/layerpanel.h \
     UIElements/channelpanel.h \
-    UIElements/resizablestackedwidget.h
+    UIElements/resizablestackedwidget.h \
+    UIElements/tbwidgetpanel.h
 
 SOURCES += glwidget.cpp \
     main.cpp \
@@ -81,7 +82,8 @@ SOURCES += glwidget.cpp \
     UIElements/clickablelabel.cpp \
     UIElements/layerpanel.cpp \
     UIElements/channelpanel.cpp \
-    UIElements/resizablestackedwidget.cpp
+    UIElements/resizablestackedwidget.cpp \
+    UIElements/tbwidgetpanel.cpp
 
 
 QT           += opengl widgets
@@ -148,4 +150,21 @@ OTHER_FILES += \
     Renderer/Basic.vsh \
     Renderer/Basic.fsh \
     Renderer/Modelling.fsh \
-    Renderer/Composite.fsh
+    Renderer/Composite.fsh \
+    UIElements/icons/transparent_bg.jpg \
+    UIElements/icons/transparent.jpg \
+    UIElements/icons/transparent - Copy.jpg \
+    UIElements/icons/Torus.png \
+    UIElements/icons/SM.png \
+    UIElements/icons/grid.png \
+    UIElements/icons/Gallery.gif \
+    UIElements/icons/FG.png \
+    UIElements/icons/eye_grey.png \
+    UIElements/icons/eye.png \
+    UIElements/icons/ellipse.png \
+    UIElements/icons/DragDrop.png \
+    UIElements/icons/drag.png \
+    UIElements/icons/DI1.png \
+    UIElements/icons/DI0.png \
+    UIElements/icons/clapboard.png \
+    UIElements/icons/BG.png

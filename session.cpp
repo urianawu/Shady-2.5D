@@ -5,6 +5,7 @@
 #include "canvas.h"
 #include "glwidget.h"
 
+
 Session* Session::_pSession = 0;
 
 GLWidget* MainWindow::glWidget = 0;
@@ -82,6 +83,10 @@ void Session::open(const char* fname){
 void Session::saveAs(const char *fname){
     _filename = fname;
     _pFileIO->save(_filename);
+}
+
+void Session::saveImage(){
+    _pFileIO->saveImage();
 }
 
 void Session::exportShape(const char *fname, int exporterid){

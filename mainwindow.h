@@ -89,6 +89,7 @@ private slots:
     void    openFile();
     void    saveFile();
     void    saveFileAs();
+    void    saveImage();
 
     void    exportINP();
     void    exportEPS();
@@ -233,6 +234,8 @@ private:
     QAction *       fileNewAct;
     QAction *       fileSaveAct;
     QAction *       fileSaveAsAct;
+    QAction *       fileSaveImageAct;
+
     QAction *       fileOpenAct;
 
     QAction *       fileExportINPAct;

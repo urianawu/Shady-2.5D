@@ -10,6 +10,8 @@ RenderOptionsPenal::RenderOptionsPenal(QWidget *parent, GLWidget *program) :
     QWidget(parent)
 {
 
+    // to be moved to Tools in mainwindow
+
     m_RenderWindow = program;
 
     setWindowTitle("Shape m_ap Control Panel");
@@ -52,6 +54,7 @@ RenderOptionsPenal::RenderOptionsPenal(QWidget *parent, GLWidget *program) :
 
     m_ButtonSave = new QPushButton("Save Image");
     connect(m_ButtonSave, SIGNAL(clicked()), this, SLOT(SaveImage()));
+    //moved to file act in mainwindow
 
     m_ReloadShader = new QPushButton("Reload Shader");
     connect(m_ReloadShader, SIGNAL(clicked()), this, SLOT(ReloadShader()));
@@ -132,11 +135,11 @@ RenderOptionsPenal::RenderOptionsPenal(QWidget *parent, GLWidget *program) :
 //    mainLayout->addWidget(m_ButtonLoadProj,2,3,1,3);
 //    mainLayout->addWidget(m_ButtonSaveProj,3,3,1,3);
 
-    mainLayout->addWidget(m_ButtonSave,12,3,1,3);
+    //mainLayout->addWidget(m_ButtonSave,12,3,1,3);
 
 
 //    mainLayout->addWidget(m_ButtonAbout,5,3,1,3);
-    mainLayout->addWidget(m_ReloadShader,11,3,1,3);
+    //mainLayout->addWidget(m_ReloadShader,11,3,1,3);
     int SliderStart_pos = 0;
 
     mainLayout->addWidget(m_DepthSliderSpinbox->m_Slider,SliderStart_pos,0,1,1);
@@ -212,7 +215,7 @@ RenderOptionsPenal::RenderOptionsPenal(QWidget *parent, GLWidget *program) :
     m_ShowMirror = new QCheckBox();
     m_ShowMirror->setChecked(false);
     mainLayout->addWidget(m_ShowMirror,SliderStart_pos+5,3,1,1, Qt::AlignRight);
-    mainLayout->addWidget(new QLabel("Toggle m_irror"),SliderStart_pos+5,4,1,2);
+    mainLayout->addWidget(new QLabel("Toggle mirror"),SliderStart_pos+5,4,1,2);
     connect(m_ShowMirror, SIGNAL(toggled(bool)), this, SLOT(ToggleMirror(bool)));
 
     m_ShowNormal = new QCheckBox();
@@ -227,19 +230,22 @@ RenderOptionsPenal::RenderOptionsPenal(QWidget *parent, GLWidget *program) :
     mainLayout->addWidget(new QLabel("Toggle Depth"),SliderStart_pos+7,4,1,2);
     connect(m_ShowDepth, SIGNAL(toggled(bool)), this, SLOT(ToggleCenter(bool)));
 
-    mainLayout->addWidget(m_ButtonSetBG, SliderStart_pos+8,3,1,2);
+    //mainLayout->addWidget(m_ButtonSetBG, SliderStart_pos+8,3,1,2);
     mainLayout->setAlignment(Qt::AlignTop);
 
-    mainLayout->addWidget(m_ButtonSetEnv, SliderStart_pos+9,3,1,2);
-    mainLayout->setAlignment(Qt::AlignTop);
+    //mainLayout->addWidget(m_ButtonSetEnv, SliderStart_pos+9,3,1,2);
+    //mainLayout->setAlignment(Qt::AlignTop);
+    //moved to layerPanel
+
 
     m_ShowTex = new QComboBox();
     m_ShowTex->addItems(QString("None|ShapeMap|Dark|Bright|Background|Label|Depth|Enviroment|Displacement").split("|", QString::SkipEmptyParts));
-    mainLayout->addWidget(m_ShowTex,SliderStart_pos+10,0,1,1, Qt::AlignRight);
-    mainLayout->addWidget(new QLabel("Current Tex"),SliderStart_pos+10,1,1,2);
-    connect(m_ShowTex,SIGNAL(currentIndexChanged(int)), this, SLOT(SetCurTex(int)));
+    //mainLayout->addWidget(m_ShowTex,SliderStart_pos+10,0,1,1, Qt::AlignRight);
+    //mainLayout->addWidget(new QLabel("Current Tex"),SliderStart_pos+10,1,1,2);
+    //connect(m_ShowTex,SIGNAL(currentIndexChanged(int)), this, SLOT(SetCurTex(int)));
+    //moved to left menu bar under "channel"
 
-    //set m_ain layout
+    //set main layout
 
     setLayout(mainLayout);
 
@@ -747,6 +753,7 @@ void RenderOptionsPenal::SetDisplayImage(int)
 
 void RenderOptionsPenal::SaveImage()
 {
+    //moved to mainwindow
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
                                "/home/untitled.png",
                                tr("Images (*.png *.jpg *.gif *.bmp *.jpeg *.pbm *.pgm *.ppm)"));

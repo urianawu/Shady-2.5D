@@ -1,78 +1,77 @@
 #include "layerpanel.h"
 
-#define LAYER_COLUMNS 3
-#define LAYER_ROWS 0
 
-LayerPanel::LayerPanel(QWidget *parent, GLWidget *program) :
-    QWidget(parent)
+LayerPanel::LayerPanel(QWidget *parent, GLWidget *program)
 {
+
+
     setWindowTitle("Layer Panel");
     QVBoxLayout *mainLayout = new QVBoxLayout();
-    tbWidget = new QTableWidget(LAYER_ROWS,LAYER_COLUMNS,this);
 
-    //initialize shape number
-    shapeNum = 0;
-
-    //set column dynamic size
-    QHeaderView *headerView = tbWidget->horizontalHeader();
-    headerView->setSectionResizeMode(0, QHeaderView::Interactive);
-    headerView->setSectionResizeMode(1, QHeaderView::Interactive);
-    headerView->setSectionResizeMode(2, QHeaderView::Stretch);
-
-    //set table column width
-    tbWidget->setColumnWidth(0, 22);
-    tbWidget->setColumnWidth(1, 30);
-
-    //hide horizontal header
-    headerView->hide();
     tbWidget->verticalHeader()->setSectionsMovable(true);
 
+
     //initialize drag icon
-    draggableIcon = new QTableWidgetItem(QIcon(tr(".//../Shady-2.5D/icons/DragDrop.png")),NULL);
+    draggableIcon = new QTableWidgetItem(QIcon(tr(".//../Shady-2.5D/UIElements/icons/DragDrop.png")),NULL);
+    this->addRowAfter("Foreground",0,true);
+    this->addRowAfter("Background",1,true);
 
-
-
-    //icon
-//    QPixmap pix;
-//    pix.load(".//../Shady-2.5D/icons/transparent.jpg");
-//    pix = pix.scaled(25,25, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-//    ClickableLabel *lbl = new ClickableLabel;
-//    lbl->setPixmap(pix);
-//    lbl->setAlignment(Qt::AlignCenter);
-//    lbl->setStyleSheet(
-//                "border:1px solid grey;"
-//               );
-
-//    QWidget* pic = new QWidget;
-//    QHBoxLayout* pic_layout = new QHBoxLayout(pic);
-//    pic_layout->setMargin(0);
-//    pic_layout->addWidget(lbl);
-//    pic_layout->setAlignment( Qt::AlignCenter );
-//    pic->setLayout(pic_layout);
-
-    //add row to table
-
-    addRow(tr("Image Shape 1"));
 
     //set layout
     mainLayout->addWidget(tbWidget);
     setLayout(mainLayout);
 }
 
-void LayerPanel::addRow(QString rowName)
+void LayerPanel::addRowAfter(QString rowName, int rowNum, bool canImport)
 {
-    //check box
-    EyeCheckBox* checkbox = new EyeCheckBox();
-    checkBoxes.append(checkbox);
-    PreviewIcon* icon = new PreviewIcon();
-    icons.append(icon);
+    TbWidgetPanel::addRowAfter(rowName, rowNum);
+    QPushButton* btn = new QPushButton(tr("..."));
+    btns.append(btn);
+    if (canImport){
+        tbWidget->setCellWidget(rowNum, 3, btn);
+        getFile(btn, rowName);
+    }else {
+        btn->setDisabled(true);
+        tbWidget->setCellWidget(rowNum, 3, btn);
+    }
+    tbWidget->setVerticalHeaderItem ( rowNum, draggableIcon);
 
-    shapeNum++;
-    tbWidget->insertRow( 0 );
-    tbWidget->setCellWidget(0, 0, checkBoxes.value(shapeNum - 1)->getCellWidget() );
-    tbWidget->setCellWidget(0, 1, icons.value(shapeNum - 1)->getCellWidget());
-    tbWidget->setItem(0, 2, new QTableWidgetItem(rowName));
+}
 
-    tbWidget->setVerticalHeaderItem ( 0, draggableIcon);
+void LayerPanel::getFile(QPushButton* btn, QString rowName)
+{
+    if(rowName == "Background")
+    {
+        connect(btn, SIGNAL(clicked()), this, SLOT(GetBG()));
+    }
+    if (rowName == "Foreground")
+    {
+        connect(btn, SIGNAL(clicked()), this, SLOT(GetEnv()));
+    }
+}
 
+void LayerPanel::GetBG()
+{
+
+    QString fname = QFileDialog::getOpenFileName(this,"Choose Background Image");
+    Session::get()->setBG(fname.toUtf8().constData());
+}
+
+void LayerPanel::GetEnv()
+{
+    //possibly defected
+    QString fileName = QFileDialog::getOpenFileName(this,
+    QPushButton::tr("Open Image"), "/home/jana", QPushButton::tr("Image Files (*.png *.jpg *.bmp)"));
+    QImage LoadedImage;
+    if(LoadedImage.load(fileName))
+    {
+        ShaderProgram *ShaderP = m_RenderWindow->getRShader();
+        QImage GLImage = m_RenderWindow->convertToGLFormat(LoadedImage);
+        if(ShaderP&&ShaderP->isInitialized())
+        {
+            ShaderP->bind();
+            ShaderP->LoadEnvImage(GLImage.bits(),GLImage.width(),GLImage.height());
+        }
+        m_RenderWindow->updateGL();
+    }
 }

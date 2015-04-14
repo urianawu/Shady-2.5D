@@ -328,6 +328,7 @@ public:
 
     virtual bool load(const char * fname) = 0;
     virtual bool save(const char * fname) = 0;
+    virtual bool saveImage() = 0;
 };
 
 class Exporter {
@@ -395,6 +396,7 @@ public:
 
     void                    open(const char *fname);
     void                    saveAs(const char* fname);
+    void                    saveImage();
     void                    exportShape(const char *fname, int exporterid);
     void                    exportScene(const char *fname, int exporterid);
 

@@ -3,7 +3,7 @@
 PreviewIcon::PreviewIcon(QWidget *parent) :
     QWidget(parent)
 {
-        pix.load(".//../Shady-2.5D/icons/transparent.jpg");
+        pix.load(".//../Shady-2.5D/UIElements/icons/transparent.jpg");
         pix = pix.scaled(25,25, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
         lbl = new ClickableLabel;
         lbl->setPixmap(pix);

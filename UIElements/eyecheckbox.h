@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QCheckBox>
 #include <QHBoxLayout>
-
+#include <QString>
 
 class EyeCheckBox : public QWidget
 {

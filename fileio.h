@@ -50,6 +50,7 @@ public:
 
     bool                    load(const char *fname);
     bool                    save(const char *fname);
+    bool                    saveImage();
 };
 
 class INPExporter:public Exporter{

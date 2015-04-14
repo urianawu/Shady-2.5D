@@ -284,6 +284,10 @@ void MainWindow::createActions()
     fileSaveAsAct->setShortcuts(QKeySequence::SaveAs);
     connect(fileSaveAsAct, SIGNAL(triggered()), this, SLOT(saveFileAs()));
 
+    fileSaveImageAct = new QAction(tr("Save Image"), this);
+    //fileSaveImageAct->setShortcuts(QKeySequence::SaveImage);
+    connect(fileSaveImageAct, SIGNAL(triggered()), this, SLOT(saveImage()));
+
     fileOpenAct = new QAction(tr("Open"), this);
     fileOpenAct->setShortcuts(QKeySequence::Open);
     connect(fileOpenAct, SIGNAL(triggered()), this, SLOT(openFile()));
@@ -576,6 +580,7 @@ void MainWindow::createMenus()
     fileMenu->addAction(fileOpenAct);
     fileMenu->addAction(fileSaveAct);
     fileMenu->addAction(fileSaveAsAct);
+    fileMenu->addAction(fileSaveImageAct);
 
     fileMenu->addSeparator();
     fileMenu->addAction("Import");
@@ -583,7 +588,8 @@ void MainWindow::createMenus()
     fileMenu->addAction(fileExportEPSAct);
     fileMenu->addAction(fileExportISAct);
 
-    fileMenu->addAction(fileSetBGImageAct);
+    //fileMenu->addAction(fileSetBGImageAct);
+    //moved to layerPanel
 
     fileMenu->addSeparator();
     fileMenu->addAction(exitAct);
@@ -746,6 +752,10 @@ void MainWindow::saveFile(){
 void MainWindow::saveFileAs(){
     QString fname = QFileDialog::getSaveFileName(this,"Save As");
     Session::get()->saveAs(fname.toUtf8().constData());
+}
+
+void MainWindow::saveImage(){
+    Session::get()->saveImage();
 }
 
 void MainWindow::exportINP(){
@@ -934,6 +944,7 @@ void MainWindow::insertEllipse(){
     ShapeOrder* so = new ShapeOrder(ShapeOrder::INSERT_SHAPE);
     so->setShape(new EllipseShape());
     Session::get()->exec(so);
+
 }
 
 void MainWindow::flipChannel()
@@ -980,11 +991,17 @@ QWidget* createShapePreviewAttrWidget(Shape* pShape){
 void MainWindow::insertShape(Shape* pShape){
 
     ImageShape* pIS = dynamic_cast<ImageShape*>(pShape);
+    int shapeCount = Session::get()->canvas()->shapes().size();
     if (pIS){
         addAttrWidget(createImageShapeAttrWidget(pIS), (void*)pIS);
+        layers->addRowAfter("Image Shape "+QString::number(shapeCount),1,true);
     }
-    else
+    else {
+
         addAttrWidget(createShapePreviewAttrWidget(pShape), (void*)pShape);
+        layers->addRowAfter("Mesh Shape",1,false);
+
+    }
 }
 
 #ifndef MODELING_MODE

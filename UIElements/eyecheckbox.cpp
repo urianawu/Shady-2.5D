@@ -11,8 +11,8 @@ EyeCheckBox::EyeCheckBox(QWidget *parent) :
     layout->setAlignment(Qt::AlignCenter);
     layout->setContentsMargins(1,1,1,1);
     cellWidget->setStyleSheet(
-                "QWidget::indicator:unchecked {image: url(.//../Shady-2.5D/icons/eye_grey.png);}"
-                "QWidget::indicator:checked {image: url(.//../Shady-2.5D/icons/eye.png);}"
+                "QWidget::indicator:unchecked {image: url(.//../Shady-2.5D/UIElements/icons/eye_grey.png);}"
+                "QWidget::indicator:checked {image: url(.//../Shady-2.5D/UIElements/icons/eye.png);}"
                 );
     cellWidget->setLayout(layout);
     checkBox->setChecked(true);
