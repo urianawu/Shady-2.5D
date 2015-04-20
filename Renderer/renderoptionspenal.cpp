@@ -35,22 +35,22 @@ RenderOptionsPenal::RenderOptionsPenal(QWidget *parent, GLWidget *program) :
     m_ButtonSetEnv = new QPushButton("Set Enviroment");
     connect(m_ButtonSetEnv, SIGNAL(clicked()), this, SLOT(GetEnv()));
 
-//    m_ButtonSetDIDark = new QPushButton("Set Diffusion(Dark)");
-//    connect(m_ButtonSetDIDark, SIGNAL(clicked()), this, SLOT(GetDIDark()));
-//    m_ButtonSetDIBright = new QPushButton("Set Diffusion(Bright)");
-//    connect(m_ButtonSetDIBright, SIGNAL(clicked()), this, SLOT(GetDIBright()));
-//    m_ButtonSetFG = new QPushButton("Set Specular Image");
-//    connect(m_ButtonSetFG, SIGNAL(clicked()), this, SLOT(GetFG()));
-//    m_ButtonSetFolder = new QPushButton("Set Image Folder");
-//    connect(m_ButtonSetFolder, SIGNAL(clicked()), this, SLOT(SetFolder()));
+    m_ButtonSetDIDark = new QPushButton("Set Diffusion(Dark)");
+    connect(m_ButtonSetDIDark, SIGNAL(clicked()), this, SLOT(GetDIDark()));
+    m_ButtonSetDIBright = new QPushButton("Set Diffusion(Bright)");
+    connect(m_ButtonSetDIBright, SIGNAL(clicked()), this, SLOT(GetDIBright()));
+    m_ButtonSetFG = new QPushButton("Set Specular Image");
+    connect(m_ButtonSetFG, SIGNAL(clicked()), this, SLOT(GetFG()));
+    m_ButtonSetFolder = new QPushButton("Set Image Folder");
+    connect(m_ButtonSetFolder, SIGNAL(clicked()), this, SLOT(SetFolder()));
 
-//    //project related
-//    m_ButtonRefFolder = new QPushButton("   Refresh Folder   ");
-//    connect(m_ButtonRefFolder, SIGNAL(clicked()), this, SLOT(BuildFileList()));
-//    m_ButtonLoadProj = new QPushButton("Load Project");
-//    connect(m_ButtonLoadProj, SIGNAL(clicked()), this, SLOT(LoadProject()));
-//    m_ButtonSaveProj = new QPushButton("Save Project");
-//    connect(m_ButtonSaveProj, SIGNAL(clicked()), this, SLOT(SaveProject()));
+    //project related
+    m_ButtonRefFolder = new QPushButton("   Refresh Folder   ");
+    connect(m_ButtonRefFolder, SIGNAL(clicked()), this, SLOT(BuildFileList()));
+    m_ButtonLoadProj = new QPushButton("Load Project");
+    connect(m_ButtonLoadProj, SIGNAL(clicked()), this, SLOT(LoadProject()));
+    m_ButtonSaveProj = new QPushButton("Save Project");
+    connect(m_ButtonSaveProj, SIGNAL(clicked()), this, SLOT(SaveProject()));
 
     m_ButtonSave = new QPushButton("Save Image");
     connect(m_ButtonSave, SIGNAL(clicked()), this, SLOT(SaveImage()));
@@ -240,23 +240,23 @@ RenderOptionsPenal::RenderOptionsPenal(QWidget *parent, GLWidget *program) :
 
     m_ShowTex = new QComboBox();
     m_ShowTex->addItems(QString("None|ShapeMap|Dark|Bright|Background|Label|Depth|Enviroment|Displacement").split("|", QString::SkipEmptyParts));
-    //mainLayout->addWidget(m_ShowTex,SliderStart_pos+10,0,1,1, Qt::AlignRight);
-    //mainLayout->addWidget(new QLabel("Current Tex"),SliderStart_pos+10,1,1,2);
-    //connect(m_ShowTex,SIGNAL(currentIndexChanged(int)), this, SLOT(SetCurTex(int)));
+    mainLayout->addWidget(m_ShowTex,SliderStart_pos+10,0,1,1, Qt::AlignRight);
+    mainLayout->addWidget(new QLabel("Current Tex"),SliderStart_pos+10,1,1,2);
+    connect(m_ShowTex,SIGNAL(currentIndexChanged(int)), this, SLOT(SetCurTex(int)));
     //moved to left menu bar under "channel"
 
     //set main layout
 
     setLayout(mainLayout);
 
-//    m_RenderWindow->show();
-//    connect(this,SIGNAL(SetBG(QPixmap)), m_RenderWindow, SLOT(SetBGTexture(QPixmap)));
-//    connect(this,SIGNAL(SetLense(QPixmap)), m_RenderWindow, SLOT(SetLenseTexture(QPixmap)));
-//    connect(this,SIGNAL(SetEnv(QPixmap)), m_RenderWindow, SLOT(SetEnvTexture(QPixmap)));
-//    connect(this,SIGNAL(SetDIDark(QPixmap)), m_RenderWindow, SLOT(SetDIDarkTexture(QPixmap)));
-//    connect(this,SIGNAL(SetDIBright(QPixmap)), m_RenderWindow, SLOT(SetDIBrightTexture(QPixmap)));
-//    connect(this,SIGNAL(SetFG(QPixmap)), m_RenderWindow, SLOT(SetFGTexture(QPixmap)));
-//    connect(this,SIGNAL(SetFG(QPixmap)), m_RenderWindow, SLOT(SetFGTexture(QPixmap)));
+    m_RenderWindow->show();
+    connect(this,SIGNAL(SetBG(QPixmap)), m_RenderWindow, SLOT(SetBGTexture(QPixmap)));
+    connect(this,SIGNAL(SetLense(QPixmap)), m_RenderWindow, SLOT(SetLenseTexture(QPixmap)));
+    connect(this,SIGNAL(SetEnv(QPixmap)), m_RenderWindow, SLOT(SetEnvTexture(QPixmap)));
+    connect(this,SIGNAL(SetDIDark(QPixmap)), m_RenderWindow, SLOT(SetDIDarkTexture(QPixmap)));
+    connect(this,SIGNAL(SetDIBright(QPixmap)), m_RenderWindow, SLOT(SetDIBrightTexture(QPixmap)));
+    connect(this,SIGNAL(SetFG(QPixmap)), m_RenderWindow, SLOT(SetFGTexture(QPixmap)));
+    connect(this,SIGNAL(SetFG(QPixmap)), m_RenderWindow, SLOT(SetFGTexture(QPixmap)));
 
 
     //set initial value of slider controllers

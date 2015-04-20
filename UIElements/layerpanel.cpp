@@ -65,13 +65,13 @@ void LayerPanel::GetEnv()
     QImage LoadedImage;
     if(LoadedImage.load(fileName))
     {
-        ShaderProgram *ShaderP = m_RenderWindow->getRShader();
-        QImage GLImage = m_RenderWindow->convertToGLFormat(LoadedImage);
+        ShaderProgram *ShaderP = Session::get()->glWidget()->getRShader();
+        QImage GLImage = Session::get()->glWidget()->convertToGLFormat(LoadedImage);
         if(ShaderP&&ShaderP->isInitialized())
         {
             ShaderP->bind();
             ShaderP->LoadEnvImage(GLImage.bits(),GLImage.width(),GLImage.height());
         }
-        m_RenderWindow->updateGL();
+        Session::get()->glWidget()->updateGL();
     }
 }
