@@ -230,10 +230,10 @@ RenderOptionsPenal::RenderOptionsPenal(QWidget *parent, GLWidget *program) :
     mainLayout->addWidget(new QLabel("Toggle Depth"),SliderStart_pos+7,4,1,2);
     connect(m_ShowDepth, SIGNAL(toggled(bool)), this, SLOT(ToggleCenter(bool)));
 
-    //mainLayout->addWidget(m_ButtonSetBG, SliderStart_pos+8,3,1,2);
+    mainLayout->addWidget(m_ButtonSetBG, SliderStart_pos+8,3,1,2);
     mainLayout->setAlignment(Qt::AlignTop);
 
-    //mainLayout->addWidget(m_ButtonSetEnv, SliderStart_pos+9,3,1,2);
+    mainLayout->addWidget(m_ButtonSetEnv, SliderStart_pos+9,3,1,2);
     //mainLayout->setAlignment(Qt::AlignTop);
     //moved to layerPanel
 
@@ -353,7 +353,8 @@ void RenderOptionsPenal::GetBG()
         QImage GLImage = m_RenderWindow->convertToGLFormat(LoadedImage);
         if(ShaderP&&ShaderP->isInitialized())
         {
-            ShaderP->bind();
+            bool test = ShaderP->bind();
+            std::cout<<test;
             ShaderP->LoadBGImage(GLImage.bits(),GLImage.width(),GLImage.height());
         }
         m_RenderWindow->updateGL();

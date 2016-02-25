@@ -1,9 +1,8 @@
 #include "tbwidgetpanel.h"
 
-TbWidgetPanel::TbWidgetPanel(QWidget *parent, GLWidget *program) :
+TbWidgetPanel::TbWidgetPanel(QWidget *parent) :
     QWidget(parent)
 {
-    m_RenderWindow = program;
     MSset = false;
 
     totalRows = 0;

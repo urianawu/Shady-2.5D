@@ -995,6 +995,7 @@ void MainWindow::insertShape(Shape* pShape){
     if (pIS){
         addAttrWidget(createImageShapeAttrWidget(pIS), (void*)pIS);
         layers->addRowAfter("Image Shape "+QString::number(shapeCount),1,true);
+		channels->setImageShape(pIS);
     }
     else {
 

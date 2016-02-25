@@ -36,7 +36,9 @@ void ImageShapeCustomDialog::LoadTextureImage(int cur)
 void ImageShapeCustomDialog::LoadTextureImage()
 {
     QString fileName = QFileDialog::getOpenFileName(this, QPushButton::tr("Open Image"), "/home/", QPushButton::tr("Image Files (*.png *.jpg *.bmp)"));
-    int channel = (Session::get()->channel() <  ACTIVE_CHANNELS) ? Session::get()->channel() : (ACTIVE_CHANNELS-1);
+	cout<<"loading.........."<<fileName.toStdString()<<endl;
+
+	int channel = (Session::get()->channel() <  ACTIVE_CHANNELS) ? Session::get()->channel() : (ACTIVE_CHANNELS-1);
     m_imgShape->m_fileName[channel] = fileName;
     m_imgShape->m_texUpdate  = 1 << channel;
 

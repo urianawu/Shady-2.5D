@@ -13,14 +13,16 @@ class channelPanel : public TbWidgetPanel
 {
     Q_OBJECT
 public:
-    channelPanel(QWidget *parent = 0, GLWidget *program = NULL);
+	channelPanel(QWidget *parent = 0, GLWidget *program = NULL);
     void addRowAfter(QString rowName, int rowNum, bool canImport);
-
+	void LoadTextureImage();
+	void setImageShape(ImageShape* img){curImageShape = img;}
 signals:
     
 private:
 
-
+    GLWidget *m_RenderWindow;
+	ImageShape* curImageShape;
     QVector<QPushButton*> btns;
     void getFile(QPushButton* btn, QString rowName);
 

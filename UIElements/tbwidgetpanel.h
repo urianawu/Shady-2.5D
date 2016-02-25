@@ -22,14 +22,13 @@ class TbWidgetPanel : public QWidget
 {
 
 public:
-    TbWidgetPanel(QWidget *parent = 0, GLWidget *program= NULL);
+    TbWidgetPanel(QWidget *parent = 0);
 
     bool deleteRow();//arg: shape list number
 
     QCheckBox* getCheckBoxAtRow(int rowNum){return checkBoxes.value(rowNum)->getCheckBox();}
     void setIconAtRow(int rowNum, QString &filePath){icons.value(rowNum)->setIcon(filePath);}
 
-    void SetGL(GLWidget *p){m_RenderWindow = p;}
     void setMS(ImageShape* pMS){m_imgShape = pMS; MSset = true;}
     bool isMSset(){return MSset;}
 
@@ -40,7 +39,6 @@ protected:
 
     bool MSset;
 
-    GLWidget *m_RenderWindow;
     ImageShape* m_imgShape;
 
     QTableWidget *tbWidget;

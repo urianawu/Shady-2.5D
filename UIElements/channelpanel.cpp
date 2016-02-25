@@ -2,8 +2,10 @@
 
 
 
-channelPanel::channelPanel(QWidget *parent, GLWidget *program)
+channelPanel::channelPanel(QWidget *parent, GLWidget *program) :
+    TbWidgetPanel(parent)
 {
+    m_RenderWindow = program;
     setWindowTitle("Channel Panel");
 
     QVBoxLayout *mainLayout = new QVBoxLayout();
@@ -101,50 +103,27 @@ void channelPanel::getFile(QPushButton* btn, QString rowName)
 
 void channelPanel::GetSM()
 {
-//    QString fileName = QFileDialog::getOpenFileName(this,
-//                                                    QPushButton::tr("Open Image"), "/home/ShapeMap", QPushButton::tr("Image Files (*.png *.jpg *.bmp)"));
-//    qDebug() << "file name:" << fileName;
-//    if(fileName != NULL || fileName != ""){
-//        //m_imgShape->m_SMFile = fileName;
-//        m_imgShape->m_texUpdate = ImageShape::UPDATE_SM;
-//        pix_sm.load(fileName);
-//        pix_sm = pix_sm.scaled(25,25, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-//        lbl_sm->setPixmap(pix_sm);
-//        //m_RenderWindow->reloadShader();
-//        m_RenderWindow->reloadShader();
-
-//    }
+	Session::get()->setChannel(NORMAL_CHANNEL);
+	LoadTextureImage();
 }
 
 void channelPanel::GetBr()
 {
-//    QString fileName = QFileDialog::getOpenFileName(this,
-//                                                    QPushButton::tr("Open Image"), "/home/BrightImage", QPushButton::tr("Image Files (*.png *.jpg *.bmp)"));
-
-//    if(fileName != NULL || fileName != ""){
-//        //m_imgShape->m_BrightFile = fileName;
-//        m_imgShape->m_texUpdate = ImageShape::UPDATE_BRIGHT;
-//        pix_br.load(fileName);
-//        pix_br = pix_br.scaled(25,25, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-//        lbl_br->setPixmap(pix_br);
-//        m_RenderWindow->reloadShader();
-
-
-
-//    }
+	Session::get()->setChannel(BRIGHT_CHANNEL);
+	LoadTextureImage();
 }
 
 void channelPanel::GetDa()
 {
-//    QString fileName = QFileDialog::getOpenFileName(this,
-//                                                    QPushButton::tr("Open Image"), "/home/DarkImage", QPushButton::tr("Image Files (*.png *.jpg *.bmp)"));
-//    if(fileName != NULL || fileName != ""){
-//        //m_imgShape->m_DarkFile = fileName;
-//        m_imgShape->m_texUpdate = ImageShape::UPDATE_DARK;
-//        pix_da.load(fileName);
-//        pix_da = pix_da.scaled(25,25, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-//        lbl_da->setPixmap(pix_da);
-//        m_RenderWindow->reloadShader();
+	Session::get()->setChannel(DARK_CHANNEL);
+	LoadTextureImage();
+}
 
-//    }
+void channelPanel::LoadTextureImage()
+{
+	QString fileName = QFileDialog::getOpenFileName(this, QPushButton::tr("Open Image"), "/home/", QPushButton::tr("Image Files (*.png *.jpg *.bmp)"));
+	int channel = (Session::get()->channel() <  ACTIVE_CHANNELS) ? Session::get()->channel() : (ACTIVE_CHANNELS-1);
+	curImageShape->m_fileName[channel] = fileName;
+	curImageShape->m_texUpdate  = 1 << channel;
+	//Session::get()->glWidget()->updateGL();
 }
